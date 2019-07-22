@@ -16,6 +16,9 @@ import java.util.ArrayList;
 public class Simulator {
 
     public void getStopsFromUser() {
+        
+        
+        System.out.println("");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
