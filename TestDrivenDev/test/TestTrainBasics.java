@@ -1,6 +1,4 @@
 
-
-
 import static org.junit.Assert.*;
 
 import java.lang.reflect.Constructor;

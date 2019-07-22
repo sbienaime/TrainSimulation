@@ -1,4 +1,3 @@
-package TrainSimulation;
 
 
 
@@ -30,7 +29,7 @@ break;
 
 while(true)
 {
-System.out.print("\nEnter absolute path for data file or for default (C:/train/customer-data.txt) press Enter:");
+System.out.print("Enter absolute path for data file or for default (C:/train/customer-data.txt) press Enter:");
 filePath = keyboard.nextLine();
 
 
