@@ -1,8 +1,6 @@
 
-package trainSimTests;
 
-import TrainSimulation.Simulator;
-import TrainSimulation.*;
+
 
 
 import static org.junit.Assert.*;
@@ -49,7 +47,7 @@ public class TestSimulatorBasics {
 		for(int i = 0; i < list.length; i++) // loop through list of attributes
 		{
 			String value = ""+list[i]; // convert to string
-			if (value.contentEquals("public int Simulator.getStopsFromUser()"))
+			if (value.contentEquals("public int TrainSimulation.Simulator.getStopsFromUser()"))
 				found = true;
 		}
 		if (!found)

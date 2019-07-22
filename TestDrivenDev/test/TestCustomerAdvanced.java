@@ -1,7 +1,4 @@
-package trainSimTests;
 
-import TrainSimulation.Customer;
-import TrainSimulation.*;
 
 import static org.junit.Assert.*;
 import org.junit.Test;

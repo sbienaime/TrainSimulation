@@ -17,23 +17,17 @@ import java.util.Scanner;
 public class Simulator {
 Scanner input = new Scanner(System.in);
  
- 
- 
- 
- 
- 
- 
-    public void getStopsFromUser() {
+    public int getStopsFromUser() {
         
         boolean valid=false;
         
-        
+        int stops=0;
         System.out.println("Enter number of stops the train has on its route (must be greater than 1):  ");
         
-        while(valid == false)
+        while(valid == false){
         try{
         
-        int stops =input.nextInt();
+         stops =input.nextInt();
         
         valid = true;
         
@@ -44,9 +38,9 @@ Scanner input = new Scanner(System.in);
         System.out.println("Invalid input, try again.");
         
         }
-       
+        }
         
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return stops;
     }
 
      public File getInputFile() {
