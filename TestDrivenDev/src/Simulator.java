@@ -22,28 +22,21 @@ public class Simulator {
    boolean notvalidated=true;   
    static int  stops = 0;  
    static Simulator sim = new Simulator();
-   File file = null;
+   static File file = null;
+   static Scanner Reader;
  public static void main(String args[]) {
      
-     
- sim.getStopsFromUser();
- sim.getInputFile();
- try{
- sim.checkFile(stops, sim.getInputFile());
- }
- catch(Exception ex){
- sim.getStopsFromUser();
- sim.getInputFile();
+   sim.getStopsFromUser();
+  sim.getInputFile();
+ sim.checkFile(stops, file);
  
- }
- 
+
  }  
     
 
 
     public  int getStopsFromUser() {
         String buffer = null;
-        int stops = 0;
         System.out.println("Enter number of stops the train has on its route (must be greater than 1):  ");
 
         while (notvalidated) {
@@ -93,6 +86,7 @@ public class Simulator {
                 }
 
             }
+            else{System.out.println("File is good");}
 
         } catch (NullPointerException ex) {
             System.out.println("Please enter a file name before pressing enter. Try again  ");
@@ -104,38 +98,49 @@ public class Simulator {
 
      
     public ArrayList<Customer> checkFile(int stops, File file) {
+        int linesProcessed = 0;
         String customerdata = "";
         String[] tempArraystr;
-        int[] tempArrayint=null;
+        int[] tempArrayint = new int[4];
         String delimiter = " ";
         ArrayList<Customer> x = new ArrayList<Customer>();
         try {
-            input = new Scanner(file);
-        } catch (Exception ex) {
-            
-         System.out.println("File not found, try again. ");    
-         sim.getInputFile();
+            Reader = new Scanner(Simulator.file);
+        } catch (FileNotFoundException ex) {
+
+            System.out.println("File not found, try again. ");
+            sim.getInputFile();
+            sim.checkFile(stops, sim.getInputFile());
         }
 
-        while (input.hasNextLine()) {
-            
-            customerdata=input.nextLine();
+        while (Reader.hasNextLine()) {
+
+            customerdata = Reader.nextLine();
             tempArraystr = customerdata.split(delimiter);
-            
-            for (int i = 0; i < tempArraystr.length; i++){
-             try{
-             
-              tempArrayint[i]=Integer.parseInt(tempArraystr[i]);
-             
-             }
-             catch(Exception ex){
-                 
-               System.out.println("Data in input file is not correct. Try again.");
-               
-              File newfile= sim.getInputFile();
-               sim.checkFile(stops,newfile ); 
-             }
-        }}
+
+            for (int i = 0; i < tempArraystr.length; i++) {
+                try {
+
+                    tempArrayint[i] = Integer.parseInt(tempArraystr[i]);
+
+                } catch (NumberFormatException ex) {
+                    if (linesProcessed == 0) {
+
+                        System.out.println("Each line must have four integers. Try again.");
+
+                    } else {
+                        System.out.println("Data in input file is not correct. Try again.");
+
+                    }
+                    File newfile = sim.getInputFile();
+                    sim.checkFile(stops, newfile);
+                }
+
+            }
+
+            linesProcessed++;
+
+        }
 
         return x;
     }

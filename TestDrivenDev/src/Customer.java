@@ -20,10 +20,20 @@ this.exit = exit;
 this.status = CUST_NOT_PROCESSED;
 }
 public int getId()
-{ 
+{
+    
+    
+    
+    
+    
 return id;
 }
 public int getArrival()
+        
+        
+        
+        
+        
 { 
 return arrival;
 }
