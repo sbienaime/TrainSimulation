@@ -22,7 +22,7 @@ public class Simulator {
    boolean notvalidated=true;   
    static int  stops = 0;  
    static Simulator sim = new Simulator();
-    
+   File file = null;
  public static void main(String args[]) {
      
      
@@ -74,7 +74,7 @@ public class Simulator {
     
     public  File getInputFile() {
         notvalidated = true;
-        File file = null;
+       
         System.out.println("Enter absolute path for data file or for default (C://train//customer-data.txt) press Enter:   ");
 
         String path = input.nextLine();
@@ -103,8 +103,11 @@ public class Simulator {
     }
 
      
-    public ArrayList<Customer> checkFile(int i, File file) {
-
+    public ArrayList<Customer> checkFile(int stops, File file) {
+        String customerdata = "";
+        String[] tempArraystr;
+        int[] tempArrayint=null;
+        String delimiter = " ";
         ArrayList<Customer> x = new ArrayList<Customer>();
         try {
             input = new Scanner(file);
@@ -115,9 +118,24 @@ public class Simulator {
         }
 
         while (input.hasNextLine()) {
-            System.out.println(input.nextLine());
-
-        }
+            
+            customerdata=input.nextLine();
+            tempArraystr = customerdata.split(delimiter);
+            
+            for (int i = 0; i < tempArraystr.length; i++){
+             try{
+             
+              tempArrayint[i]=Integer.parseInt(tempArraystr[i]);
+             
+             }
+             catch(Exception ex){
+                 
+               System.out.println("Data in input file is not correct. Try again.");
+               
+              File newfile= sim.getInputFile();
+               sim.checkFile(stops,newfile ); 
+             }
+        }}
 
         return x;
     }
