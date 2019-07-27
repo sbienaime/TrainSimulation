@@ -28,8 +28,10 @@ public class Simulator {
      
    sim.getStopsFromUser();
   sim.getInputFile();
- sim.checkFile(stops, file);
- 
+  ArrayList<Customer> custList = sim.checkFile(stops, file);
+ Train OrionExpress = new Train(stops, custList);
+ OrionExpress.simulate();
+ OrionExpress.displayStops();
 
  }  
     
@@ -86,7 +88,7 @@ public class Simulator {
                 }
 
             }
-            else{System.out.println("File is good");}
+            
 
         } catch (NullPointerException ex) {
             System.out.println("Please enter a file name before pressing enter. Try again  ");
@@ -100,10 +102,10 @@ public class Simulator {
     public ArrayList<Customer> checkFile(int stops, File file) {
         int linesProcessed = 0;
         String customerdata = "";
-        String[] tempArraystr;
-        int[] tempArrayint = new int[4];
+        String[] dataArray;
+        int[] parsedVals = new int[4];
         String delimiter = " ";
-        ArrayList<Customer> x = new ArrayList<Customer>();
+        ArrayList<Customer> custList = new ArrayList<Customer>();
         try {
             Reader = new Scanner(Simulator.file);
         } catch (FileNotFoundException ex) {
@@ -116,12 +118,14 @@ public class Simulator {
         while (Reader.hasNextLine()) {
 
             customerdata = Reader.nextLine();
-            tempArraystr = customerdata.split(delimiter);
-
-            for (int i = 0; i < tempArraystr.length; i++) {
+            dataArray = customerdata.split(delimiter);
+            
+            for (int i = 0; i < dataArray.length; i++) {
                 try {
 
-                    tempArrayint[i] = Integer.parseInt(tempArraystr[i]);
+                    parsedVals[i] = Integer.parseInt(dataArray[i]);
+                    
+                   
 
                 } catch (NumberFormatException ex) {
                     if (linesProcessed == 0) {
@@ -137,12 +141,20 @@ public class Simulator {
                 }
 
             }
-
+            
+            
+            
+             custList.add(new Customer(parsedVals[0],parsedVals[1],parsedVals[2],parsedVals[3]));
+             for ( int i=0 ; i<4; i++){
+             
+             System.out.println(parsedVals[i]);
+             
+             }
             linesProcessed++;
 
         }
 
-        return x;
+        return custList;
     }
 
     
