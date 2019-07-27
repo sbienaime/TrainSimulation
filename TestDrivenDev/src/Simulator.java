@@ -18,20 +18,22 @@ import java.util.concurrent.TimeUnit;
  */
 public class Simulator {
     
-  static Scanner input = new Scanner(System.in);
-  static boolean notvalidated=true;   
+   Scanner input = new Scanner(System.in);
+   boolean notvalidated=true;   
    static int  stops = 0;  
-    
+   static Simulator sim = new Simulator();
     
  public static void main(String args[]) {
- getStopsFromUser();
- getInputFile();
+     
+     
+ sim.getStopsFromUser();
+ sim.getInputFile();
  try{
- checkFile(stops,getInputFile());
+ sim.checkFile(stops, sim.getInputFile());
  }
- catch(FileNotFoundException ex){
-  getStopsFromUser();
- getInputFile();
+ catch(Exception ex){
+ sim.getStopsFromUser();
+ sim.getInputFile();
  
  }
  
@@ -39,7 +41,7 @@ public class Simulator {
     
 
 
-    public static int getStopsFromUser() {
+    public  int getStopsFromUser() {
         String buffer = null;
         int stops = 0;
         System.out.println("Enter number of stops the train has on its route (must be greater than 1):  ");
@@ -70,10 +72,10 @@ public class Simulator {
     
     
     
-    public static File getInputFile() {
+    public  File getInputFile() {
         notvalidated = true;
         File file = null;
-        System.out.println("Enter absolute path for data file or for default (C:/train/customer-data.txt) press Enter:   ");
+        System.out.println("Enter absolute path for data file or for default (C://train//customer-data.txt) press Enter:   ");
 
         String path = input.nextLine();
         try {
@@ -101,12 +103,16 @@ public class Simulator {
     }
 
      
-     
-    public static ArrayList<Customer> checkFile(int i, File file) throws FileNotFoundException {
+    public ArrayList<Customer> checkFile(int i, File file) {
 
         ArrayList<Customer> x = new ArrayList<Customer>();
-
-        input = new Scanner(file);
+        try {
+            input = new Scanner(file);
+        } catch (Exception ex) {
+            
+         System.out.println("File not found, try again. ");    
+         sim.getInputFile();
+        }
 
         while (input.hasNextLine()) {
             System.out.println(input.nextLine());
