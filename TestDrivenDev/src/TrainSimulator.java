@@ -9,8 +9,8 @@ import java.util.Scanner;
 
 public class TrainSimulator {
 	
-static final String FILE_PATH = "customer-data.txt";
-public static void main(String args[])
+/*static final String FILE_PATH = "customer-data.txt";
+public static void MAIN(String args[])
 {
 Scanner keyboard = new Scanner(System.in);
 Scanner fileReader = null;
@@ -20,7 +20,7 @@ ArrayList<Customer> customers = new ArrayList<Customer>();
 while(true)
 {
 System.out.print("Enter number of stops the train has on its route (must be greater than 1): ");
-numStops = keyboard.nextInt();
+//numStops = keyboard.nextInt();
 if(numStops < 1)
 System.out.println("Invalid input, try again.");
 else
@@ -54,5 +54,5 @@ fileReader.close();
 Train train = new Train(numStops, customers);
 train.simulate();
 train.displayStops();
-}
-}
+}}
+/*/}
