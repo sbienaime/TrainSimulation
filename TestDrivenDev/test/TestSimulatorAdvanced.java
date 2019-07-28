@@ -107,23 +107,22 @@ public class TestSimulatorAdvanced {
 	    assertEquals(2, count); // expect two prompt messages
 	}
 
-	@Test
-	// Test that if user presses enter and file not exists, he gets error message
-	// MUST NOT HAVE customer file at C:/train/customer-data.txt
-	// MUST have src/customer file
-	public  void testgetInputFileDefaultFail()
-	{
-		String message = "File not found, try again.";
+    @Test
+    // Test that if user presses enter and file not exists, he gets error message
+    // MUST NOT HAVE customer file at C:/train/customer-data.txt
+    // MUST have src/customer file
+    public void testgetInputFileDefaultFail() {
+        String message = "File not found, try again.";
 
-	    ByteArrayInputStream in = new ByteArrayInputStream("\nsrc/customer".getBytes());  // input enter
-	    System.setIn(in);
+        ByteArrayInputStream in = new ByteArrayInputStream("\nsrc/customer".getBytes());  // input enter
+        System.setIn(in);
 
-		Simulator sim = new Simulator();  // new instance of Simulator
-		sim.getInputFile();  // call method to get file name
-		String output = outContent.toString();
- 
-		assertTrue(output.contains(message));  // check that output has the error message
-	}
+        Simulator sim = new Simulator();  // new instance of Simulator
+        sim.getInputFile();  // call method to get file name
+        String output = outContent.toString();
+
+        assertTrue(output.contains(message));  // check that output has the error message
+    }
 	
 	@Test
 	// Test that there is correct prompt for file and enter expects that file

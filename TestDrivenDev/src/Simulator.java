@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,13 +35,13 @@ public class Simulator {
         sim.getStopsFromUser();
         sim.getInputFile();
         ArrayList<Customer> custList = sim.checkFile(stops, file);
-        run(stops, custList);
+        sim.run(stops, custList);
 
     }
     
     
     
-    public static void run(int stops, ArrayList<Customer> custList) {
+    public void run(int stops, ArrayList<Customer> custList) {
         Train OrionExpress = new Train(stops, custList);
         OrionExpress.simulate();
         OrionExpress.displayStops();
@@ -76,27 +77,36 @@ public class Simulator {
         notvalidated = true;
 
         System.out.println("Enter absolute path for data file or for default (C://train//customer-data.txt) press Enter:   ");
-
-        String path = input.nextLine();
+        
+        String path;
+       
         try {
-            file = new File(path);
 
+            if (input.hasNext()) {
+                path = input.nextLine();
+                file = new File(path);
+            }
             if (!file.exists()) {
+                int i =0;
+                while (!file.exists() | file == null) {
 
-                while (!file.exists()) {
-
-                    System.out.println("File not found, try again. ");
-
-                    path = input.nextLine();
-                    file = new File(path);
-
+                    System.out.println("File not found, try again.");
+                    if (input.hasNext()) {
+                        path = input.nextLine();
+                        file = new File(path);
+                    }
+                    
+                  
+                   i++; 
+                   if(i==5){break;}
+                    
                 }
 
             }
 
-        } catch (NullPointerException ex) {
+        } catch ( NoSuchElementException ex) {
             System.out.println("Please enter a file name before pressing enter. Try again  ");
-            path = input.nextLine();
+           
         }
 
         return file;
@@ -131,7 +141,7 @@ public class Simulator {
             idArray = new int[lines];
         } catch (FileNotFoundException ex) {
 
-            System.out.println("File not found, try again. ");
+            System.out.println("File not found, try again.");
             sim.getInputFile();
             sim.checkFile(stops, sim.getInputFile());
         } catch (IOException ex) {
