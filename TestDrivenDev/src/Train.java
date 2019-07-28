@@ -65,7 +65,9 @@ currTime = time;
 }
 time++; 
 } 
+return;
 }
+
 public void displayStops(){ 
 System.out.println("Train made " + madeStops + " stops and it took " + currTime + " time units to process all customers");
 }
