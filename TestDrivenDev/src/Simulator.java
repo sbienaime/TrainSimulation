@@ -34,16 +34,18 @@ public class Simulator {
         sim.getStopsFromUser();
         sim.getInputFile();
         ArrayList<Customer> custList = sim.checkFile(stops, file);
+        run(stops, custList);
+
+    }
+    
+    
+    
+    public static void run(int stops, ArrayList<Customer> custList) {
         Train OrionExpress = new Train(stops, custList);
         OrionExpress.simulate();
-       // try{OrionExpress.wait(200);}
-       // catch(Exception ex){
-        //System.out.println("Your system became unresponsive , starting simulatin over):  ");
-       // }
         OrionExpress.displayStops();
 
     }
-
     public int getStopsFromUser() {
         String buffer = null;
         System.out.println("Enter number of stops the train has on its route (must be greater than 1):  ");
