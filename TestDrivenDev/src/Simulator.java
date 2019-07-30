@@ -23,13 +23,13 @@ import java.util.logging.Logger;
  */
 public class Simulator {
 
-    Scanner input = new Scanner(System.in);
-    boolean notvalidated = true;
-    static Simulator sim = new Simulator();
+
+    
+    
    
 
     public static void main(String args[]) {
-
+        Simulator sim = new Simulator();
         int stops = sim.getStopsFromUser();
         File file = sim.getInputFile();
         ArrayList<Customer> custList = sim.checkFile(stops, file);
@@ -46,7 +46,9 @@ public class Simulator {
 
     }
     public int getStopsFromUser() {
-        
+       
+        boolean notvalidated = true;
+        Scanner input = new Scanner(System.in);
         int stops=0;
         String buffer = null;
         System.out.println("Enter number of stops the train has on its route (must be greater than 1):  ");
@@ -75,6 +77,8 @@ public class Simulator {
     }
 
     public File getInputFile() {
+        Scanner input = new Scanner(System.in);
+        boolean notvalidated = true;
         File file = new File("");
         notvalidated = true;
         
@@ -118,7 +122,7 @@ public class Simulator {
     }
     
     public ArrayList<Customer> checkFile(int stops, File file) {
-        Scanner Reader =null; 
+        Simulator sim = new Simulator();
         int linesProcessed = 0;
         String customerdata = " ";
         String[] dataArray;
@@ -130,14 +134,9 @@ public class Simulator {
       
         try {
          
-          Reader =new Scanner(new FileReader(file));
+         Scanner Reader =new Scanner(file);
             
-        } catch (FileNotFoundException ex) {
-            
-            System.out.println("File not found, try again.");
-            file = sim.getInputFile();
-            sim.checkFile(stops, file);
-        } 
+      
         
         while (Reader.hasNextLine()) {
         
@@ -152,6 +151,7 @@ public class Simulator {
                     parsedVals[i] = Integer.parseInt(dataArray[i]);
                      if (parsedVals[i] <=0 )
                      {
+                       System.out.println("file input 0");
                      throw new IllegalArgumentException();
                      
                      }
@@ -175,8 +175,8 @@ public class Simulator {
                         System.out.println(" Regular:Data in input file is not correct. Try again.");
 
                     }
-                   file= sim.getInputFile();
-                    custList =sim.checkFile(stops, file);
+                   sim.getInputFile();
+                   sim.checkFile(stops, file);
                 }
                 catch(IllegalArgumentException args){
                 
@@ -239,10 +239,20 @@ public class Simulator {
 
             File newfile = sim.getInputFile();
             sim.checkFile(stops, newfile);
+            
 
         }
-
+        }
+           catch (FileNotFoundException ex) {
+           
+            System.out.println("File not found, try again.");
+            file = sim.getInputFile();
+            sim.checkFile(stops, file);
+        } 
+        
+        
         return custList;
+        
     }
 
 }
