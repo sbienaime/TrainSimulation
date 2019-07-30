@@ -66,11 +66,11 @@ public class TestSimulatorAdvanced {
 	    ByteArrayInputStream in = new ByteArrayInputStream("0\n7".getBytes());  // input 0 on first prompt and 7 on next
 	    System.setIn(in);
 
-		Simulator sim = new Simulator();  // new instance of Simulator
-		sim.getStopsFromUser();  // call method to get number of stops
-		String prompt = outContent.toString().trim();
+            Simulator sim = new Simulator();  // new instance of Simulator
+            sim.getStopsFromUser();  // call method to get number of stops
+	    String prompt = outContent.toString().trim();
 
-		assertTrue(prompt.contains(message));  // check that output has the error message
+            assertTrue(prompt.contains(message));  // check that output has the error message
 	}
 	
 	@Test
@@ -130,7 +130,7 @@ public class TestSimulatorAdvanced {
 	// If file does not exists, the test will fail with java.util.NoSuchElementException: No line found
 	public  void testgetInputFilePrompt()
 	{
-		String message = "Enter absolute path for data file or for default (C:/train/customer-data.txt) press Enter:";
+        String message = "Enter absolute path for data file or for default (C:/train/customer-data.txt) press Enter:";
 
 	    ByteArrayInputStream in = new ByteArrayInputStream("\n".getBytes());  // input enter
 	    System.setIn(in);
@@ -383,11 +383,9 @@ public class TestSimulatorAdvanced {
 	// If file does not exists, the test will fail 
 	public  void testCheckFileTimeInvalid()
 	{
-		String message = "Data in input file is not correct. Try again.";
-
+            String message = "Data in input file is not correct. Try again.";
 	    ByteArrayInputStream in = new ByteArrayInputStream("src/bad-time\nsrc/customer".getBytes());  // input enter
 	    System.setIn(in);
-
 		Simulator sim = new Simulator();  // new instance of Simulator
 		File file = sim.getInputFile();  // call method to get file name
 		ArrayList<Customer> list = sim.checkFile(7,file);
@@ -417,7 +415,7 @@ public class TestSimulatorAdvanced {
 		assertTrue("Expected list==null",list==null);
 	}
 	
-	@Test
+	@Test// passed 
 	// Test that get correct customer list 
 	// MUST HAVE customer files at src/customer  
 	// If file does not exists, the test will fail 

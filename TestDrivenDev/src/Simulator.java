@@ -25,21 +25,19 @@ public class Simulator {
 
     Scanner input = new Scanner(System.in);
     boolean notvalidated = true;
-    static int stops = 0;
     static Simulator sim = new Simulator();
-    static File file = null;
-    static Scanner Reader;
+   
 
     public static void main(String args[]) {
 
-        sim.getStopsFromUser();
-        sim.getInputFile();
+        int stops = sim.getStopsFromUser();
+        File file = sim.getInputFile();
         ArrayList<Customer> custList = sim.checkFile(stops, file);
         sim.run(stops, custList);
 
     }
-    
-    
+
+
     
     public void run(int stops, ArrayList<Customer> custList) {
         Train OrionExpress = new Train(stops, custList);
@@ -48,6 +46,8 @@ public class Simulator {
 
     }
     public int getStopsFromUser() {
+        
+        int stops=0;
         String buffer = null;
         System.out.println("Enter number of stops the train has on its route (must be greater than 1):  ");
 
@@ -56,16 +56,17 @@ public class Simulator {
                 buffer = input.nextLine();
                 stops = Integer.parseInt(buffer);
 
-                if (stops < 0) {
+                if (stops <= 0) {
                     throw new IllegalArgumentException();
                 }
                 notvalidated = false;
             } catch (NumberFormatException | NullPointerException nfe) {
 
-                System.out.println("Invalid input, try again.");
-
+                System.out.println("Invalid input, try again");
+                System.out.println("Enter number of stops the train has on its route (must be greater than 1):  ");
             } catch (IllegalArgumentException x) {
-                System.out.println("Number must be greater then zero. Try again ");
+               System.out.println("Invalid input, try again");
+               System.out.println("Enter number of stops the train has on its route (must be greater than 1):  ");
 
             }
         }
@@ -74,82 +75,74 @@ public class Simulator {
     }
 
     public File getInputFile() {
+        File file = new File("");
         notvalidated = true;
-
-        System.out.println("Enter absolute path for data file or for default (C://train//customer-data.txt) press Enter:   ");
+        
+        System.out.println("Enter absolute path for data file or for default (C:/train/customer-data.txt) press Enter:");
         
         String path;
-       
+        
         try {
-
+            
             if (input.hasNext()) {
                 path = input.nextLine();
                 file = new File(path);
             }
             if (!file.exists()) {
-                int i =0;
-                while (!file.exists() | file == null) {
-
+                int i = 0;
+                while (!file.exists()) {
+                    
                     System.out.println("File not found, try again.");
+                    
+                    System.out.println("Enter absolute path for data file or for default (C:/train/customer-data.txt) press Enter:");
                     if (input.hasNext()) {
                         path = input.nextLine();
                         file = new File(path);
                     }
                     
-                  
-                   i++; 
-                   if(i==5){break;}
+                    i++;                    
+                    if (i == 5) {
+                        break;
+                    }
                     
                 }
-
+                
             }
-
-        } catch ( NoSuchElementException ex) {
+            
+        } catch (NoSuchElementException ex) {
             System.out.println("Please enter a file name before pressing enter. Try again  ");
-           
+            
         }
-
+        
         return file;
     }
-
+    
     public ArrayList<Customer> checkFile(int stops, File file) {
+        Scanner Reader =null; 
         int linesProcessed = 0;
-        String customerdata = "";
+        String customerdata = " ";
         String[] dataArray;
         int[] parsedVals = new int[4];
         String delimiter = " ";
         ArrayList<Customer> custList = new ArrayList<Customer>();
-        int[] idArray = new int[0];
-        int lines = 0;
+        ArrayList idArray;
+        idArray = new ArrayList();
+      
         try {
-
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-
-            while (reader.readLine() != null) {
-
-                lines++;
-
-            }
-            try {
-                reader.close();
-            } catch (IOException ex) {
-                Logger.getLogger(Simulator.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            Reader = new Scanner(Simulator.file);
-
-            idArray = new int[lines];
+         
+          Reader =new Scanner(new FileReader(file));
+            
         } catch (FileNotFoundException ex) {
-
+            
             System.out.println("File not found, try again.");
-            sim.getInputFile();
-            sim.checkFile(stops, sim.getInputFile());
-        } catch (IOException ex) {
-            Logger.getLogger(Simulator.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+            file = sim.getInputFile();
+            sim.checkFile(stops, file);
+        } 
+        
         while (Reader.hasNextLine()) {
-
+        
+            
+          
             customerdata = Reader.nextLine();
             dataArray = customerdata.split(delimiter);
 
@@ -157,8 +150,21 @@ public class Simulator {
                 try {
 
                     parsedVals[i] = Integer.parseInt(dataArray[i]);
-
-                 
+                     if (parsedVals[i] <=0 )
+                     {
+                     throw new IllegalArgumentException();
+                     
+                     }
+                    
+                     if (i==2 | i==3   ){
+                     
+                     if(parsedVals[i]>stops){
+                       throw new IllegalArgumentException();
+                     
+                     }
+                     
+                     }
+                     
 
                 } catch (NumberFormatException ex) {
                     if (linesProcessed == 0) {
@@ -166,35 +172,73 @@ public class Simulator {
                         System.out.println("Each line must have four integers. Try again.");
 
                     } else {
-                        System.out.println("Data in input file is not correct. Try again.");
+                        System.out.println(" Regular:Data in input file is not correct. Try again.");
 
                     }
-                    File newfile = sim.getInputFile();
-                    sim.checkFile(stops, newfile);
+                   file= sim.getInputFile();
+                    custList =sim.checkFile(stops, file);
+                }
+                catch(IllegalArgumentException args){
+                
+                 System.out.println("Data in input file is not correct. Try again.");
+                 file =sim.getInputFile();
+                 custList = sim.checkFile(stops, file);
+                 
+                 
                 }
 
             }
+            
+           
 
-            custList.add(new Customer(parsedVals[0], parsedVals[1], parsedVals[2], parsedVals[3]));
-
-            idArray[linesProcessed] = parsedVals[0];
+            try{
+                
+                 if(parsedVals[2]==parsedVals[3]) {
+                 
+                 
+                 throw new IllegalArgumentException();
+                 
+                 }
+                
+                
+                
+                
+                custList.add(new Customer(parsedVals[0], parsedVals[1], parsedVals[2], parsedVals[3]));}
+          
+            catch(IllegalArgumentException ex){
+            
+             System.out.println("Data in input file is not correct. Try again.");
+              file =sim.getInputFile();
+             custList = sim.checkFile(stops, file);
+            
+            
+            
+            
+            }
+            
+            idArray.add(linesProcessed, parsedVals[0]);
             linesProcessed++;
-
+            
+            
+         
         }
-
+      
         boolean duplicates = false;
-        for (int j = 0; j < idArray.length; j++) {
-            for (int k = j + 1; k < idArray.length; k++) {
-                if (k != j && idArray[k] == idArray[j]) {
+        for (int j = 0; j < idArray.size(); j++) {
+            for (int k = j + 1; k < idArray.size(); k++) {
+                if (k != j && idArray.get(k) == idArray.get(j)) {
                     duplicates = true;
                 }
             }
         }
+        
+        
+        
         if (duplicates) {
-            System.out.println("Data in input file is not correct. Try again.");
+            System.out.println(" Duplicates: Data in input file is not correct. Try again.");
 
             File newfile = sim.getInputFile();
-            custList = sim.checkFile(stops, newfile);
+            sim.checkFile(stops, newfile);
 
         }
 

@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 public class Train {
 
-int stops; 
-int madeStops; 
-int currTime; 
-ArrayList<Customer> custList;
+private int stops; 
+private int madeStops; 
+private int currTime; 
+private ArrayList<Customer> custList;
 
 public Train(int stops, ArrayList<Customer> list) 
 {

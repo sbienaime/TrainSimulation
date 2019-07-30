@@ -17,14 +17,12 @@ public Customer(int id, int arrival, int enter, int exit)
     
     
     
-    if(id<=0| arrival<=0 | enter<=0 | exit <=0){
-    
-    throw new  IllegalArgumentException(" All customer attributes must be greater than or equal to zero: Try again. ");
-    
-    
-    
+    if (id <= 0 | arrival <= 0 | enter <= 0 | exit <= 0) {
+
+        throw new IllegalArgumentException(" All customer attributes must be greater than or equal to zero; Try again. ");
+
     }
-    
+
     
    
 this.id = id;
