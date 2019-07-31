@@ -27,12 +27,18 @@ public class Simulator {
     
     
    
-
     public static void main(String args[]) {
+        ArrayList<Customer> custList = null;
+
         Simulator sim = new Simulator();
+
         int stops = sim.getStopsFromUser();
-        File file = sim.getInputFile();
-        ArrayList<Customer> custList = sim.checkFile(stops, file);
+
+        while (custList == null) {
+            File file = sim.getInputFile();
+            custList = sim.checkFile(stops, file);
+        }
+
         sim.run(stops, custList);
 
     }
@@ -151,7 +157,7 @@ public class Simulator {
                     parsedVals[i] = Integer.parseInt(dataArray[i]);
                      if (parsedVals[i] <=0 )
                      {
-                       System.out.println("file input 0");
+                      
                      throw new IllegalArgumentException();
                      
                      }
@@ -175,14 +181,12 @@ public class Simulator {
                         System.out.println(" Regular:Data in input file is not correct. Try again.");
 
                     }
-                   sim.getInputFile();
-                   sim.checkFile(stops, file);
+                  return null;
                 }
                 catch(IllegalArgumentException args){
                 
                  System.out.println("Data in input file is not correct. Try again.");
-                 file =sim.getInputFile();
-                 custList = sim.checkFile(stops, file);
+                 return null;
                  
                  
                 }
@@ -208,9 +212,7 @@ public class Simulator {
             catch(IllegalArgumentException ex){
             
              System.out.println("Data in input file is not correct. Try again.");
-              file =sim.getInputFile();
-             custList = sim.checkFile(stops, file);
-            
+            return null;
             
             
             
@@ -237,8 +239,7 @@ public class Simulator {
         if (duplicates) {
             System.out.println(" Duplicates: Data in input file is not correct. Try again.");
 
-            File newfile = sim.getInputFile();
-            sim.checkFile(stops, newfile);
+           return null;
             
 
         }
@@ -246,8 +247,7 @@ public class Simulator {
            catch (FileNotFoundException ex) {
            
             System.out.println("File not found, try again.");
-            file = sim.getInputFile();
-            sim.checkFile(stops, file);
+            return null;
         } 
         
         
